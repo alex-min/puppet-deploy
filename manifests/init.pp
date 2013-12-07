@@ -17,17 +17,23 @@ file { '/deploy/.forward':
       mode    => 0640,
       group => user-deploy,
       content => "minette.alexandre+dedicated@gmail.com",     
-} -> exec { "ssh-keygen":
-  command => "ssh-keygen -t rsa -C 'minette.alexandre+dedicated@gmail.com' -f /deploy/id_rsa -P ''",
-  path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
-  creates => '/deploy/id_rsa'
 } ->
-file{'/deploy/id_rsa':
-  mode => 0640,
+file {'/deploy/.ssh':
+  mode => 700,
+  ensure  => 'directory',  
+  owner => 'user-deploy',
+  group => user-deploy  
+} -> exec { "ssh-keygen":
+  command => "ssh-keygen -t rsa -C 'minette.alexandre+dedicated@gmail.com' -f /deploy/.ssh/id_rsa -P ''",
+  path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
+  creates => '/deploy/.ssh/id_rsa'
+} ->
+file{'/deploy/.ssh/id_rsa':
+  mode => 0600,
   owner => user-deploy,
   group => user-deploy
 } ->
-file {'/deploy/id_rsa.pub':
+file {'/deploy/.ssh/id_rsa.pub':
   mode => 0640,
   owner => user-deploy,
   group => user-deploy
