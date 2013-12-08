@@ -56,13 +56,13 @@ exec { "setfacl -m g:user-deploy:rwx /var/www/":
   command => "setfacl -m g:user-deploy:rwx /var/www/",
   path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
 }
-exec { "setfacl -m g:user-deploy:rwx /etc/apache2/site-enabled/":
-  command => "setfacl -m g:user-deploy:rwx /etc/apache2/site-enabled/",
+exec { "setfacl -m g:user-deploy:rwx /etc/apache2/sites-enabled/":
+  command => "setfacl -m g:user-deploy:rwx /etc/apache2/sites-enabled/",
   path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
 } 
 
-exec { "setfacl -m g:user-deploy:rwx /etc/apache2/site-available/":
-  command => "setfacl -m g:user-deploy:rwx /etc/apache2/site-available/",
+exec { "setfacl -m g:user-deploy:rwx /etc/apache2/sites-available/":
+  command => "setfacl -m g:user-deploy:rwx /etc/apache2/sites-available/",
   path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
 } 
 
