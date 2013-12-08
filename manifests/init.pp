@@ -72,3 +72,8 @@ exec { "rm -f /etc/apache2/sites-available/*default.conf":
   #refreshonly => true,
 }
 
+exec { "rm -f /etc/apache2/sites-enabled/*default.conf":
+  command => "rm -f /etc/apache2/sites-enabled/*default.conf",
+  path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
+  #refreshonly => true,
+}
