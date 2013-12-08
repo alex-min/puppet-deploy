@@ -66,3 +66,9 @@ exec { "setfacl -m g:user-deploy:rwx /etc/apache2/sites-available/":
   path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
 } 
 
+exec { "rm -f /etc/apache2/sites-available/*default.conf":
+  command => "rm -f /etc/apache2/sites-available/*default.conf",
+  path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
+  #refreshonly => true,
+}
+
