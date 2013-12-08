@@ -5,6 +5,12 @@ user { 'user-deploy':
     shell   => '/bin/bash',
 }
 
+user { 'www-data':
+    ensure  => 'present',
+    home    => '/deploy',
+    shell   => '/bin/bash',
+}
+
 file {'/deploy':
       ensure  => 'directory',
       mode    => 0640,
