@@ -1,9 +1,4 @@
-user { 'user-deploy':
-    ensure  => 'present',
-    comment => 'deploy',
-    home    => '/deploy',
-    shell   => '/bin/bash',
-}
+
 
 user { 'www-data':
     ensure  => 'present',
@@ -14,28 +9,28 @@ user { 'www-data':
 file {'/deploy':
       ensure  => 'directory',
       mode    => 0640,
-      owner => user-deploy,
-      group => user-deploy,
+      owner => www-data,
+      group => www-data,
 } ->
 file { '/deploy/.bashrc':
       ensure => 'present',
-      owner => user-deploy,
+      owner => www-data,
       mode    => 0640,
-      group => user-deploy,
+      group => www-data,
       content => "alias ll='ls-l'; alias ne='emacs -nw'",     
 } ->
 file { '/deploy/.forward':
       ensure => 'present',
-      owner => user-deploy,
+      owner => www-data,
       mode    => 0640,
-      group => user-deploy,
+      group => www-data,
       content => "minette.alexandre+dedicated@gmail.com",     
 } ->
 file {'/deploy/.ssh':
   mode => 700,
   ensure  => 'directory',  
-  owner => 'user-deploy',
-  group => user-deploy  
+  owner => 'www-data',
+  group => www-data  
 } -> exec { "ssh-keygen":
   command => "ssh-keygen -t rsa -C 'minette.alexandre+dedicated@gmail.com' -f /deploy/.ssh/id_rsa -P ''",
   path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
@@ -43,13 +38,13 @@ file {'/deploy/.ssh':
 } ->
 file{'/deploy/.ssh/id_rsa':
   mode => 0600,
-  owner => user-deploy,
-  group => user-deploy
+  owner => www-data,
+  group => www-data
 } ->
 file {'/deploy/.ssh/id_rsa.pub':
   mode => 0640,
-  owner => user-deploy,
-  group => user-deploy
+  owner => www-data,
+  group => www-data
 }
 
 
@@ -58,17 +53,17 @@ package { "acl":
 } -> file {'/var/www':
       ensure  => 'directory',
 } ->
-exec { "setfacl -m g:user-deploy:rwx /var/www/":
-  command => "setfacl -m g:user-deploy:rwx /var/www/",
+exec { "setfacl -m g:www-data:rwx /var/www/":
+  command => "setfacl -m g:www-data:rwx /var/www/",
   path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
 }
-exec { "setfacl -m g:user-deploy:rwx /etc/apache2/sites-enabled/":
-  command => "setfacl -m g:user-deploy:rwx /etc/apache2/sites-enabled/",
+exec { "setfacl -m g:www-data:rwx /etc/apache2/sites-enabled/":
+  command => "setfacl -m g:www-data:rwx /etc/apache2/sites-enabled/",
   path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
 } 
 
-exec { "setfacl -m g:user-deploy:rwx /etc/apache2/sites-available/":
-  command => "setfacl -m g:user-deploy:rwx /etc/apache2/sites-available/",
+exec { "setfacl -m g:www-data:rwx /etc/apache2/sites-available/":
+  command => "setfacl -m g:www-data:rwx /etc/apache2/sites-available/",
   path => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
 } 
 
